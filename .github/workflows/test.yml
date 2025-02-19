@@ -1,6 +1,7 @@
 name: Test
 
 on:
+  workflow_dispatch:
   push:
     branches: ["master"]
   pull_request:
@@ -20,7 +21,7 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Run Tests
-      run: RunTests.ps1
+      run: ./RunTests.ps1
 
     - name: Publish Test Report
       uses: HylandSoftware/unit-test-reporter@d5f22dffa6970046350d036d57e6bc2e45e260b5 # v3.0.0
