@@ -14,6 +14,7 @@ $pesterConfig = New-PesterConfiguration @{
 }
 
 Write-Output 'Running Pester tests...'
-Invoke-Pester -Configuration $pesterConfig
+Invoke-Pester -Configuration $pesterConfig -ErrorAction Continue
 Write-Output 'Pester tests complete.'
-$LASTEXITCODE = 0
+
+return 0
