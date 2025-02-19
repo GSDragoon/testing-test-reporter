@@ -1,0 +1,32 @@
+name: Test
+
+on:
+  push:
+    branches: ["master"]
+  pull_request:
+    branches: ["master"]
+    types: [opened, reopened, synchronize, ready_for_review, labeled]
+
+permissions:
+  checks: write
+  actions: read
+  contents: read
+
+jobs:
+  test:
+    runs-on: windows-latest # For Linux, use ubuntu-latest
+    steps:
+    - name: 'Checkout GitHub Action'
+      uses: actions/checkout@v4
+
+    - name: Run Tests
+      run: RunTests.ps1
+
+    - name: Publish Test Report
+      uses: HylandSoftware/unit-test-reporter@d5f22dffa6970046350d036d57e6bc2e45e260b5 # v3.0.0
+      if: success() || failure()
+      with:
+        path: "testResults.xml"
+        report-title: "Hyland Unit Test Reporter"
+        reportType: 'junit'
+        access-token: ${{inputs.GITHUB_TOKEN}}
