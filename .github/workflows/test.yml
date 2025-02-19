@@ -36,6 +36,7 @@ jobs:
         path: ${{ env.TEST_RESULTS_FILE }}
         if-no-files-found: warn
 
+    # https://github.com/HylandSoftware/unit-test-reporter
     - name: Hyland Unit Test Reporter
       uses: HylandSoftware/unit-test-reporter@d5f22dffa6970046350d036d57e6bc2e45e260b5 # v3.0.0
       if: success() || failure()
@@ -48,6 +49,7 @@ jobs:
     - name: After Hyland Reporter
       run: echo "This should not run after Hyland Reporter sees a test failure."
 
+    # https://github.com/marketplace/actions/test-reporter
     - name: Dorny Test Reporter
       uses: dorny/test-reporter@v1
       if: success() || failure()
