@@ -26,6 +26,7 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Run Tests
+      id: run-tests
       run: ./RunTests.ps1
 
     - name: Upload Test Results
@@ -38,6 +39,7 @@ jobs:
 
     # https://github.com/HylandSoftware/unit-test-reporter
     - name: Hyland Unit Test Reporter
+      id: hyland-unit-test-reporter
       uses: HylandSoftware/unit-test-reporter@d5f22dffa6970046350d036d57e6bc2e45e260b5 # v3.0.0
       if: success() || failure()
       with:
@@ -47,10 +49,18 @@ jobs:
         access-token: ${{secrets.GITHUB_TOKEN}}
 
     - name: After Hyland Reporter
-      run: echo "This should not run after Hyland Reporter sees a test failure."
+      run: |
+        echo "This should not run after Hyland Reporter sees a test failure."
+        echo "Run Tests"
+        echo "Conclusion: ${{ steps.run-tests.conclusion }}"
+        echo "Outcome: ${{ steps.run-tests.outcome }}"
+        echo "Hyland Unit Test Reporter"
+        echo "Conclusion: ${{ steps.hyland-unit-test-reporter.conclusion }}"
+        echo "Outcome: ${{ steps.hyland-unit-test-reporter.outcome }}"
 
     # https://github.com/marketplace/actions/test-reporter
     - name: Dorny Test Reporter
+      id: dorny-test-reporter
       uses: dorny/test-reporter@v1
       if: success() || failure()
       with:
@@ -62,4 +72,14 @@ jobs:
         fail-on-empty: 'true'
 
     - name: After All
-      run: echo "This should only run after all tests have passed."
+      run: |
+        echo "This should only run after all tests have passed."
+        echo "Run Tests"
+        echo "Conclusion: ${{ steps.run-tests.conclusion }}"
+        echo "Outcome: ${{ steps.run-tests.outcome }}"
+        echo "Hyland Unit Test Reporter"
+        echo "Conclusion: ${{ steps.hyland-unit-test-reporter.conclusion }}"
+        echo "Outcome: ${{ steps.hyland-unit-test-reporter.outcome }}"
+        echo "Dorny Test Reporter"
+        echo "Conclusion: ${{ steps.dorny-test-reporter.conclusion }}"
+        echo "Outcome: ${{ steps.dorny-test-reporter.outcome }}"
