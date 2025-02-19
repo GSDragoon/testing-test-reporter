@@ -71,9 +71,9 @@ jobs:
         fail-on-error: 'true'
         fail-on-empty: 'true'
 
-    - name: After All
+    - name: Echo Conclusion and Outcome
+      if: success() || failure()
       run: |
-        echo "This should only run after all tests have passed."
         echo "Run Tests"
         echo "Conclusion: ${{ steps.run-tests.conclusion }}"
         echo "Outcome: ${{ steps.run-tests.outcome }}"
@@ -83,3 +83,7 @@ jobs:
         echo "Dorny Test Reporter"
         echo "Conclusion: ${{ steps.dorny-test-reporter.conclusion }}"
         echo "Outcome: ${{ steps.dorny-test-reporter.outcome }}"
+
+    - name: After All
+      run: |
+        echo "This should only run after all tests have passed."
