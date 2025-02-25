@@ -17,7 +17,6 @@ env:
   TEST_RESULTS_FILE: testResults.xml
   TEST_RESULTS_ARTIFACT: test-results
 
-
 jobs:
   test:
     runs-on: windows-latest
