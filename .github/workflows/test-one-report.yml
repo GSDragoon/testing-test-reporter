@@ -1,4 +1,4 @@
-name: Test
+name: Test One Report
 
 on:
   workflow_dispatch:
@@ -18,7 +18,7 @@ env:
   TEST_RESULTS_ARTIFACT: test-results
 
 jobs:
-  test:
+  test-one-report:
     runs-on: windows-latest
     steps:
     - name: 'Checkout GitHub Action'
