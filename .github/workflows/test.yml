@@ -60,11 +60,25 @@ jobs:
     # https://github.com/marketplace/actions/test-reporter
     - name: Dorny Test Reporter
       id: dorny-test-reporter
-      uses: dorny/test-reporter@v1
+      uses: dorny/test-reporter@v2.1.0
       if: success() || failure()
       with:
         artifact: '${{ env.TEST_RESULTS_ARTIFACT }}'
-        name: 'Dorny Test Reporter'
+        name: 'Dorny Test Reporter Name'
+        #report-title: 'Dorny Test Reporter Title'
+        path: ${{ env.TEST_RESULTS_FILE }}
+        reporter: 'java-junit'
+        fail-on-error: 'true'
+        fail-on-empty: 'true'
+
+    - name: GSDragoon Test Reporter
+      id: gsdragoon-test-reporter
+      uses: GSDragoon/test-reporter@65b11c1a2d2cd2e15d60d98e3cb6a12a86008f81 # fix/report-title-input
+      if: success() || failure()
+      with:
+        artifact: '${{ env.TEST_RESULTS_ARTIFACT }}'
+        name: 'GSDragoon Test Reporter Name'
+        report-title: 'GSDragoon Test Reporter Title'
         path: ${{ env.TEST_RESULTS_FILE }}
         reporter: 'java-junit'
         fail-on-error: 'true'
