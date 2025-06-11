@@ -85,7 +85,6 @@ jobs:
         fail-on-empty: 'true'
 
     - name: GSDragoon Test Reporter Summary Only
-      id: gsdragoon-test-reporter-summary-only
       uses: GSDragoon/test-reporter@65b11c1a2d2cd2e15d60d98e3cb6a12a86008f81 # fix/report-title-input
       if: success() || failure()
       with:
@@ -95,8 +94,17 @@ jobs:
         only-summary: 'true'
         path: ${{ env.TEST_RESULTS_FILE }}
         reporter: 'java-junit'
-        fail-on-error: 'true'
-        fail-on-empty: 'true'
+
+    - name: GSDragoon Test Reporter Summary Only No Title
+      uses: GSDragoon/test-reporter@65b11c1a2d2cd2e15d60d98e3cb6a12a86008f81 # fix/report-title-input
+      if: success() || failure()
+      with:
+        artifact: '${{ env.TEST_RESULTS_ARTIFACT }}'
+        name: 'GSDragoon Test Reporter Name Summary Only No Title'
+        #report-title: 'GSDragoon Test Reporter Title Summary Only No Title'
+        only-summary: 'true'
+        path: ${{ env.TEST_RESULTS_FILE }}
+        reporter: 'java-junit'
 
     - name: Echo Conclusion and Outcome
       if: success() || failure()
