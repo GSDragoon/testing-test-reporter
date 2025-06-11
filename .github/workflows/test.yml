@@ -92,7 +92,7 @@ jobs:
         artifact: '${{ env.TEST_RESULTS_ARTIFACT }}'
         name: 'GSDragoon Test Reporter Name Summary Only'
         report-title: 'GSDragoon Test Reporter Title Summary Only'
-        only-summary: 'false'
+        only-summary: 'true'
         path: ${{ env.TEST_RESULTS_FILE }}
         reporter: 'java-junit'
         fail-on-error: 'true'
