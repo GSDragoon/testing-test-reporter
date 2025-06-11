@@ -1,0 +1,50 @@
+name: Test
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["master"]
+  pull_request:
+    branches: ["master"]
+    types: [opened, reopened, synchronize, ready_for_review, labeled]
+
+permissions:
+  checks: write
+  actions: read
+  contents: read
+
+env:
+  TEST_RESULTS_FILE: testResults.xml
+  TEST_RESULTS_ARTIFACT: test-results
+
+jobs:
+  test:
+    runs-on: windows-latest
+    steps:
+    - name: 'Checkout GitHub Action'
+      uses: actions/checkout@v4
+
+    - name: Run Tests
+      id: run-tests
+      run: ./RunTests.ps1
+
+    - name: Upload Test Results
+      uses: actions/upload-artifact@v4
+      if: success() || failure()
+      with:
+        name: ${{ env.TEST_RESULTS_ARTIFACT }}
+        path: ${{ env.TEST_RESULTS_FILE }}
+        if-no-files-found: warn
+
+    - name: GSDragoon Test Reporter
+      id: gsdragoon-test-reporter
+      uses: GSDragoon/test-reporter@65b11c1a2d2cd2e15d60d98e3cb6a12a86008f81 # fix/report-title-input
+      if: success() || failure()
+      with:
+        artifact: '${{ env.TEST_RESULTS_ARTIFACT }}'
+        name: 'GSDragoon Test Reporter Name'
+        report-title: 'GSDragoon Test Reporter Title'
+        path: ${{ env.TEST_RESULTS_FILE }}
+        reporter: 'java-junit'
+        fail-on-error: 'true'
+        fail-on-empty: 'true'
